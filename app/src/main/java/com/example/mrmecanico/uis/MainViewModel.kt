@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mrmecanico.domain.AddExpediente
+import com.example.mrmecanico.domain.DeleteExpediente
 import com.example.mrmecanico.domain.Expediente
 import com.example.mrmecanico.domain.GetExpediente
 import com.example.mrmecanico.main.interaction.ExpedienteEvent
@@ -24,7 +25,8 @@ class MainViewModel @Inject constructor(
 
 //Se agregan los casos de uso from domain.
     private val getExpediente: GetExpediente,
-    private val addExpediente: AddExpediente
+    private val addExpediente: AddExpediente,
+    private val deleteExpediente: DeleteExpediente
 
 ) : ViewModel() {
 
@@ -43,6 +45,11 @@ class MainViewModel @Inject constructor(
             is ExpedienteEvent.AddExpediente -> {
                 onInsertExpediente(expediente = expedienteEvent.expediente)
             }
+
+            is ExpedienteEvent.DeleteNote -> {
+                onDeleteExpediente(expediente = expedienteEvent.expediente)
+            }
+            is ExpedienteEvent.UpdateNote -> TODO()
         }
     }
 
@@ -58,6 +65,13 @@ class MainViewModel @Inject constructor(
     private fun onInsertExpediente(expediente: Expediente){
         viewModelScope.launch(Dispatchers.IO){
             addExpediente(expediente = expediente)
+            collectExpedientes()
+        }
+    }
+
+     fun onDeleteExpediente(expediente: Expediente){
+        viewModelScope.launch(Dispatchers.IO){
+            deleteExpediente(expediente = expediente)
             collectExpedientes()
         }
     }

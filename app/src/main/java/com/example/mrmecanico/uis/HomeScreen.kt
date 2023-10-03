@@ -44,6 +44,7 @@ fun HomeScreen(
     mainViewModel: MainViewModel,
     expedienteState: ExpedienteState,
     onEvent: (ExpedienteEvent) -> Unit,
+   // expedient: Expediente,
 ) {
 //    Box(modifier = Modifier.fillMaxSize()) {
 //        Image(
@@ -99,8 +100,15 @@ fun HomeScreen(
                 Text(text = "Registrar \n Expediente", textAlign = TextAlign.Center)
             }
         }
-        ListaExpediente(expedientes = expedienteState.expediente, mainViewModel = mainViewModel)
-        MostrarDialogo(show = mainViewModel.showDialog,
+        ListaExpediente(
+            expedientes = expedienteState.expediente,
+            mainViewModel = mainViewModel,
+          //  expedient = expedient,
+            onEvent = onEvent,
+            onSelecetedExpediente = {}
+        )
+        MostrarDialogo(
+            show = mainViewModel.showDialog,
             onDismiss = { mainViewModel.onDialogClose() },
             onEvent = { onEvent(it) }, mainViewModel = mainViewModel
         )

@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.mrmecanico.domain.Expediente
 import com.example.mrmecanico.main.interaction.ExpedienteState
 import com.example.mrmecanico.ui.theme.MrMecanicoTheme
 import com.example.mrmecanico.uis.HomeScreen

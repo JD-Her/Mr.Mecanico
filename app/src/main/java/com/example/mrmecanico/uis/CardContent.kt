@@ -24,8 +24,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mrmecanico.domain.Expediente
-import com.example.mrmecanico.ui.theme.MrMecanicoTheme
+import com.example.mrmecanico.main.interaction.ExpedienteEvent
 
 @Composable
 fun CardContent(
@@ -88,9 +89,11 @@ fun CardContent(
 //CardExpediente
 @Composable
 fun CardElement(
+    selectedExpediente: (expediente : Expediente) -> Unit,
     expediente: Expediente,
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
+    onEvent: (expedienteEvent: ExpedienteEvent) -> Unit,
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -98,7 +101,25 @@ fun CardElement(
         ),
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 4.dp)
-            .clickable { /*onSelectedExp*/ }
+            .clickable {
+                mainViewModel.onDeleteExpediente(expediente)
+//                onEvent(
+//                    ExpedienteEvent.DeleteNote(
+//                        Expediente(
+//                            id = expediente.id,
+//                            adicional = expediente.adicional,
+//                            telefono = expediente.telefono,
+//                            cedula = expediente.cedula,
+//                            direccion = expediente.direccion,
+//                            motivo = expediente.motivo,
+//                            name = expediente.name,
+//                            placa = expediente.placa,
+//                            fecha = expediente.fecha,
+//                            mecanico = expediente.mecanico
+//                        )
+//                    )
+//                )
+            }
 //            .pointerInput(Unit) {
 //                detectTapGestures(onLongPress = {
 //                    mainViewModel.onItemRemove(expediente)
@@ -125,10 +146,13 @@ fun ListaExpediente(
     modifier: Modifier = Modifier,
     expedientes: List<Expediente>,
     mainViewModel: MainViewModel,
+    onEvent: (expedienteEvent: ExpedienteEvent) -> Unit,
+    onSelecetedExpediente: (Expediente) -> Unit
+    //expedient: Expediente
     //names: List<String> = List(10) { "$it" },
 ) {
 
-  //  val myExp: List<Expediente> = mainViewModel.exp
+    //  val myExp: List<Expediente> = mainViewModel.exp
 
     LazyColumn(modifier = modifier.padding(4.dp)) {
         items(items = expedientes, key = { it.id }
@@ -136,32 +160,35 @@ fun ListaExpediente(
             CardElement(
                 modifier = Modifier.padding(10.dp),
                 expediente = expediente,
-                mainViewModel = mainViewModel
+                mainViewModel = mainViewModel,
+                onEvent = onEvent,
+                selectedExpediente = {mainViewModel.onDeleteExpediente(expediente)}
+
             )
         }
     }
 }
 
 
-@Composable
-fun FakeExpeDiente(mainViewModel: MainViewModel) {
-    MrMecanicoTheme() {
-        CardElement(
-            expediente = Expediente(
-                id = 0,
-                name = "Jesus Hernandez",
-                placa = "AB678SD",
-                fecha = "22 sep",
-                mecanico = "Josep",
-                motivo = "Caja",
-                adicional = "Se rompio",
-                cedula = "23554984",
-                direccion = "La carlota",
-                telefono = "654462"
-            ), mainViewModel = mainViewModel
-        )
-    }
-}
+//@Composable
+//fun FakeExpeDiente(mainViewModel: MainViewModel) {
+//    MrMecanicoTheme() {
+//        CardElement(
+//            expediente = Expediente(
+//                id = 0,
+//                name = "Jesus Hernandez",
+//                placa = "AB678SD",
+//                fecha = "22 sep",
+//                mecanico = "Josep",
+//                motivo = "Caja",
+//                adicional = "Se rompio",
+//                cedula = "23554984",
+//                direccion = "La carlota",
+//                telefono = "654462"
+//            ), mainViewModel = mainViewModel
+//        )
+//    }
+//}
 
 //@Preview
 //@Composable
